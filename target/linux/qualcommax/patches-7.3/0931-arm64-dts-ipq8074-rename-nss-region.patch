@@ -1,0 +1,18 @@
+arm64: dts: qcom: ipq8074: rename the NSS reserved-memory region
+
+The NSS host driver's device tree (ipq8074-nss.dtsi) refers to the region by
+label, and 7.3 ships the node without one.
+
+Signed-off-by: Julius Bairaktaris <julius@bairaktaris.de>
+
+--- a/arch/arm64/boot/dts/qcom/ipq8074.dtsi
++++ b/arch/arm64/boot/dts/qcom/ipq8074.dtsi
+@@ -152,7 +152,7 @@
+ 		#size-cells = <2>;
+ 		ranges;
+ 
+-		nss@40000000 {
++		nss_region: memory@40000000 {
+ 			no-map;
+ 			reg = <0x0 0x40000000 0x0 0x01000000>;
+ 		};
