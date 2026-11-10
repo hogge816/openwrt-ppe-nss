@@ -7,6 +7,7 @@
 /dts-v1/;
 
 #include "ipq8074.dtsi"
+#include "ipq8074-nss.dtsi"
 #include "ipq8074-ess.dtsi"
 #include "ipq8074-hk-cpu.dtsi"
 #include <dt-bindings/gpio/gpio.h>
@@ -535,5 +536,5 @@
 &wifi {
 	status = "okay";
 
-	qcom,ath11k-calibration-variant = "Netgear-SXK80";
+	qcom,calibration-variant = "Netgear-SXK80";
 };
