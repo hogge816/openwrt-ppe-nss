@@ -462,6 +462,9 @@ TARGET_DEVICES += redmi_ax6
 
 define Device/redmi_ax6-stock
 	$(call Device/redmi_ax6)
+	# Device/Default derives the DTS from the name's last _-separated word,
+	# which would be ax6-stock here; point it at the shared AX6 device tree.
+	DEVICE_DTS := ipq8071-ax6
 	DEVICE_VARIANT := (stock layout)
 	DEVICE_ALT0_VENDOR := Redmi
 	DEVICE_ALT0_MODEL := AX6
