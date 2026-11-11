@@ -11,47 +11,48 @@ replicating directed packets when the RX VLAN offloads a bridge.
 Signed-off-by: ViKing <viking.yfy@qq.com>
 --- a/include/net/dsa.h
 +++ b/include/net/dsa.h
-@@ -63,6 +63,7 @@
+@@ -62,6 +62,7 @@
+ #define DSA_TAG_PROTO_KSZ8463_VALUE		34
  #define DSA_TAG_PROTO_MT7628_VALUE		35
  #define DSA_TAG_PROTO_MXL862_8021Q_VALUE	36
- #define DSA_TAG_PROTO_OOB_VALUE			37
 +#define DSA_TAG_PROTO_RTL9303_8021AD_VALUE	38
  
  enum dsa_tag_protocol {
  	DSA_TAG_PROTO_NONE		= DSA_TAG_PROTO_NONE_VALUE,
-@@ -103,6 +104,7 @@
+@@ -101,6 +102,7 @@
+ 	DSA_TAG_PROTO_NETC		= DSA_TAG_PROTO_NETC_VALUE,
  	DSA_TAG_PROTO_KSZ8463		= DSA_TAG_PROTO_KSZ8463_VALUE,
  	DSA_TAG_PROTO_MT7628		= DSA_TAG_PROTO_MT7628_VALUE,
- 	DSA_TAG_PROTO_OOB		= DSA_TAG_PROTO_OOB_VALUE,
 +	DSA_TAG_PROTO_RTL9303_8021AD	= DSA_TAG_PROTO_RTL9303_8021AD_VALUE,
  };
  
  struct dsa_switch;
 --- a/net/dsa/Kconfig
 +++ b/net/dsa/Kconfig
-@@ -197,6 +197,12 @@
- 	  Say Y or M if you want to enable support for tagging frames for Realtek
- 	  switches with 8 byte protocol 4 tags, such as the Realtek RTL8365MB-VC.
+@@ -104,6 +104,13 @@
+ 	  Say Y or M if you want to enable support for tagging frames for the
+ 	  switch embedded in the MT7628 SoC.
  
 +config NET_DSA_TAG_RTL9303_8021AD
-+	tristate "Tag driver for external Realtek RTL9303 switches"
++	tristate "Tag driver for RTL9303 external switches using 802.1ad"
 +	help
-+	  Encode the switch and five-bit port number in a private outer
-+	  service VLAN, preserving customer VLAN tags.
++	  Say Y or M if you want to enable support for tagging frames for an
++	  external RTL9303 connected to a front-panel MAC instead of the
++	  switch's internal CPU port, using a private 802.1ad service VLAN.
 +
- config NET_DSA_TAG_RZN1_A5PSW
- 	tristate "Tag driver for Renesas RZ/N1 A5PSW switch"
+ config NET_DSA_TAG_MTK
+ 	tristate "Tag driver for Mediatek switches"
  	help
 --- a/net/dsa/Makefile
 +++ b/net/dsa/Makefile
-@@ -40,6 +40,7 @@
- obj-$(CONFIG_NET_DSA_TAG_QCA) += tag_qca.o
- obj-$(CONFIG_NET_DSA_TAG_RTL4_A) += tag_rtl4_a.o
- obj-$(CONFIG_NET_DSA_TAG_RTL8_4) += tag_rtl8_4.o
+@@ -45,6 +45,7 @@
+ obj-$(CONFIG_NET_DSA_TAG_VSC73XX_8021Q) += tag_vsc73xx_8021q.o
+ obj-$(CONFIG_NET_DSA_TAG_XRS700X) += tag_xrs700x.o
+ obj-$(CONFIG_NET_DSA_TAG_YT921X) += tag_yt921x.o
 +obj-$(CONFIG_NET_DSA_TAG_RTL9303_8021AD) += tag_rtl9303_8021ad.o
- obj-$(CONFIG_NET_DSA_TAG_RZN1_A5PSW) += tag_rzn1_a5psw.o
- obj-$(CONFIG_NET_DSA_TAG_SJA1105) += tag_sja1105.o
- obj-$(CONFIG_NET_DSA_TAG_TRAILER) += tag_trailer.o
+ 
+ # for tracing framework to find trace.h
+ CFLAGS_trace.o := -I$(src)
 --- /dev/null
 +++ b/net/dsa/tag_rtl9303_8021ad.c
 @@ -0,0 +1,79 @@
