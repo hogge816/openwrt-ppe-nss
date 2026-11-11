@@ -471,6 +471,21 @@ define Device/redmi_ax6-stock
 endef
 TARGET_DEVICES += redmi_ax6-stock
 
+define Device/verizon_cr1000a
+	$(call Device/FitImage)
+	$(call Device/EmmcImage)
+	# The OEM bootloader reads at most 20 MiB for either FIT image.
+	KERNEL_SIZE := 20480k
+	KERNEL_INITRAMFS = $$(KERNEL) | check-size $$(KERNEL_SIZE)
+	DEVICE_VENDOR := Verizon
+	DEVICE_MODEL := CR1000A
+	SOC := ipq8072
+	DEVICE_DTS_CONFIG := config@verizon_cr1000a
+	DEVICE_PACKAGES := ipq-wifi-verizon_cr1000a ath11k-firmware-qcn9074 \
+		kmod-dsa-rtl9303-spi cr1000a-recovery
+endef
+TARGET_DEVICES += verizon_cr1000a
+
 define Device/spectrum_sax1v1k
 	$(call Device/FitImage)
 	$(call Device/EmmcImage)
