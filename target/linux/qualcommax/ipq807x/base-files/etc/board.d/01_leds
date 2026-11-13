@@ -44,8 +44,19 @@ netgear,wax630)
 	ucidef_set_led_netdev "lan1" "LAN1" "lan1:green" "lan1"
 	ucidef_set_led_netdev "lan2" "LAN2" "lan2:green" "lan2"
 	;;
-redmi,ax6)
+redmi,ax6|\
+redmi,ax6-stock)
 	ucidef_set_led_netdev "wan" "WAN" "blue:network" "wan"
+	;;
+verizon,cr1000a)
+	ucidef_set_led_netdev "cr1000a_wan_white" "wan (1G and faster)" "90000.mdio-1:08:white:wan" "wan" "link_1000 link_2500 link_5000 link_10000 tx rx"
+	ucidef_set_led_netdev "cr1000a_wan_amber" "wan (10/100M)" "90000.mdio-1:08:amber:wan" "wan" "link_100 tx rx"
+	ucidef_set_led_netdev "cr1000a_lan1_white" "lan1 (1G and faster)" "78b9000.spi:switch@0:mdio-controller-2:00:white:lan" "lan1" "link_1000 link_2500 link_5000 link_10000 tx rx"
+	ucidef_set_led_netdev "cr1000a_lan1_amber" "lan1 (10/100M)" "78b9000.spi:switch@0:mdio-controller-2:00:amber:lan" "lan1" "link_100 tx rx"
+	ucidef_set_led_netdev "cr1000a_lan2_white" "lan2 (1G and faster)" "78b9000.spi:switch@0:mdio-controller-0:07:white:lan" "lan2" "link_1000 link_2500 tx rx"
+	ucidef_set_led_netdev "cr1000a_lan2_amber" "lan2 (10/100M)" "78b9000.spi:switch@0:mdio-controller-0:07:amber:lan" "lan2" "link_10 link_100 tx rx"
+	ucidef_set_led_netdev "cr1000a_lan3_white" "lan3 (1G and faster)" "78b9000.spi:switch@0:mdio-controller-1:03:white:lan" "lan3" "link_1000 link_2500 tx rx"
+	ucidef_set_led_netdev "cr1000a_lan3_amber" "lan3 (10/100M)" "78b9000.spi:switch@0:mdio-controller-1:03:amber:lan" "lan3" "link_10 link_100 tx rx"
 	;;
 tcl,linkhub-hh500v)
 	ucidef_set_led_wlan "wlan5g" "WiFi 5GHz" "blue:wlan" "phy0radio"

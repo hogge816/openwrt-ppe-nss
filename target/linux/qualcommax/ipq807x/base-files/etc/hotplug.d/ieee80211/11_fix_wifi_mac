@@ -18,6 +18,16 @@ case "$board" in
 		[ "$PHYNBR" = "0" ] && macaddr_add $(get_mac_label)  8 > /sys${DEVPATH}/macaddress
 		[ "$PHYNBR" = "1" ] && macaddr_add $(get_mac_label) 16 > /sys${DEVPATH}/macaddress
 		;;
+	redmi,ax6|\
+	redmi,ax6-stock)
+		[ "$PHYNBR" = "0" ] && macaddr_add $(get_mac_label) 1 > /sys${DEVPATH}/macaddress
+		[ "$PHYNBR" = "1" ] && macaddr_add $(get_mac_label) 2 > /sys${DEVPATH}/macaddress
+		;;
+	verizon,cr1000a)
+		[ "$PHYNBR" = "0" ] && macaddr_add $(get_mac_label) 1 > /sys${DEVPATH}/macaddress
+		[ "$PHYNBR" = "1" ] && macaddr_add $(get_mac_label) 2 > /sys${DEVPATH}/macaddress
+		[ "$PHYNBR" = "2" ] && macaddr_add $(get_mac_label) 3 > /sys${DEVPATH}/macaddress
+		;;
 	cmcc,rm2-6|\
 	zte,mf269)
 		[ "$PHYNBR" = "0" ] && macaddr_add $(get_mac_label) 2 > /sys${DEVPATH}/macaddress

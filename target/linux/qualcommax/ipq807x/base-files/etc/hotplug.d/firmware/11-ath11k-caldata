@@ -25,6 +25,7 @@ case "$FIRMWARE" in
 	linksys,mx5300|\
 	netgear,wax218|\
 	redmi,ax6|\
+	redmi,ax6-stock|\
 	xiaomi,ax3600|\
 	xiaomi,ax9000|\
 	yuncore,ax880|\
@@ -105,7 +106,8 @@ case "$FIRMWARE" in
 		ath11k_set_macflag
 		;;
 	prpl,haze|\
-	spectrum,sax1v1k)
+	spectrum,sax1v1k|\
+	verizon,cr1000a)
 		caldata_extract_mmc "0:ART" 0x1000 0x20000
 		;;
 	tcl,linkhub-hh500v)
@@ -169,6 +171,11 @@ case "$FIRMWARE" in
 		;;
 	prpl,haze)
 		caldata_extract_mmc "0:ART" 0x26800 0x20000
+		;;
+	verizon,cr1000a)
+		# ART ends at 0x40000. The OEM pads this radio's 0x19800-byte
+		# calibration record to the 0x20000-byte QCN9074 transfer size.
+		caldata_extract_mmc "0:ART" 0x26800 0x19800
 		;;
 	xiaomi,ax9000)
 		caldata_extract "0:art" 0x26800 0x20000
